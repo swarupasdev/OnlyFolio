@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Code, BookOpen, Mail, Github, Linkedin, ChevronDown, Sparkles, Brain, Terminal, Heart, ArrowLeft } from 'lucide-react';
+import { portfolioAPI } from './services/api';
 
 export default function Portfolio() {
   const [currentPage, setCurrentPage] = useState('landing');
@@ -29,6 +30,33 @@ export default function Portfolio() {
     }
   ]);
   const [newResponse, setNewResponse] = useState({});
+  // API state
+  const [apiSkills, setApiSkills] = useState([]);
+  const [apiProjects, setApiProjects] = useState([]);
+  const [apiPoems, setApiPoems] = useState([]);
+  const [apiBooks, setApiBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch data from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const [skillsData, projectsData, poemsData, booksData] = await Promise.all([
+        portfolioAPI.getSkills(),
+        portfolioAPI.getProjects(),
+        portfolioAPI.getPoems(),
+        portfolioAPI.getBooks()
+      ]);
+
+      setApiSkills(skillsData);
+      setApiProjects(projectsData);
+      setApiPoems(poemsData);
+      setApiBooks(booksData);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (currentPage === 'landing') {
@@ -60,11 +88,17 @@ export default function Portfolio() {
     }
   };
 
-  const skills = [
+  // Map API skills to the format your UI expects
+    const skills = apiSkills.length > 0 ? apiSkills.map(skill => ({
+    name: skill.name,
+    level: skill.proficiency_level || 85,
+    icon: skill.icon_name === 'Terminal' ? Terminal : skill.icon_name === 'Brain' ? Brain : Code,
+    color: `from-${skill.color_from} to-${skill.color_to}`
+    })) : [
     { name: 'C++', level: 85, icon: Terminal, color: 'from-cyan-400 to-blue-500' },
     { name: 'Python', level: 90, icon: Code, color: 'from-blue-400 to-cyan-500' },
     { name: 'AI/ML', level: 80, icon: Brain, color: 'from-cyan-500 to-blue-600' }
-  ];
+    ];
 
   const projects = [
     { title: 'ML Classification Model', tech: ['Python', 'TensorFlow', 'Scikit-learn'], desc: 'Advanced machine learning model for data classification' },
@@ -84,7 +118,14 @@ export default function Portfolio() {
     { title: 'Clean Code', author: 'Robert C. Martin', thoughts: 'Essential reading for anyone who cares about code quality and maintainability.' },
     { title: 'Deep Learning', author: 'Goodfellow et al.', thoughts: 'Comprehensive and rigorous treatment of modern AI techniques.' }
   ];
-
+  // Show loading while fetching data
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-cyan-400 text-2xl animate-pulse">Loading...</div>
+      </div>
+    );
+  }
   // Landing Page
   if (currentPage === 'landing') {
     return (
