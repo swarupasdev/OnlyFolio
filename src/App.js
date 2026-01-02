@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Code, BookOpen, Mail, Github, Linkedin, ChevronDown, Sparkles, Brain, Terminal, Heart, ArrowLeft } from 'lucide-react';
 import { portfolioAPI } from './services/api';
+import AdminLogin from './admins/AdminLogin';
+import AdminDashboard from './admins/AdminDashboard';
 
 export default function Portfolio() {
   const [currentPage, setCurrentPage] = useState('landing');
@@ -36,6 +38,8 @@ export default function Portfolio() {
   const [apiPoems, setApiPoems] = useState([]);
   const [apiBooks, setApiBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminToken, setAdminToken] = useState(null);
 
   // Fetch data from backend
   useEffect(() => {
@@ -87,7 +91,17 @@ export default function Portfolio() {
       setNewResponse({ ...newResponse, [discussionId]: '' });
     }
   };
+  const handleAdminLogin = (token) => {
+    setAdminToken(token);
+    setIsAdmin(true);
+  };
 
+  const handleAdminLogout = () => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUser');
+    setAdminToken(null);
+    setIsAdmin(false);
+  };
   // Map API skills to the format your UI expects
     const skills = apiSkills.length > 0 ? apiSkills.map(skill => ({
     name: skill.name,
@@ -126,6 +140,14 @@ export default function Portfolio() {
       </div>
     );
   }
+    // Admin Panel
+  if (currentPage === 'admin') {
+    if (!isAdmin) {
+      return <AdminLogin onLoginSuccess={handleAdminLogin} />;
+    }
+    return <AdminDashboard token={adminToken} onLogout={handleAdminLogout} />;
+  }
+
   // Landing Page
   if (currentPage === 'landing') {
     return (
@@ -141,6 +163,13 @@ export default function Portfolio() {
         }}></div>
 
         <div className="text-center z-10 px-6 max-w-4xl">
+        {/* Admin Button */}
+          <button
+            onClick={() => navigateToPage('admin')}
+            className="absolute top-8 right-8 text-xs text-gray-500 hover:text-cyan-400 transition-colors"
+          >
+            Manage
+          </button>
           {showName && (
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-8">
               <span className="block text-cyan-400 mb-2 tracking-wider">Hello, I'm</span>
