@@ -20,6 +20,8 @@ export default function AdminLogin({ onLoginSuccess }) {
       });
 
       const data = await response.json();
+      
+      console.log('Login response:', data); // Debug line
 
       if (data.success) {
         localStorage.setItem('adminToken', data.data.token);
@@ -29,7 +31,8 @@ export default function AdminLogin({ onLoginSuccess }) {
         setError(data.message || 'Invalid credentials');
       }
     } catch (err) {
-      setError('Connection error. Make sure backend is running.');
+      console.error('Login error:', err); // Debug line
+      setError('Connection error. Make sure backend is running on port 5000.');
     } finally {
       setLoading(false);
     }
