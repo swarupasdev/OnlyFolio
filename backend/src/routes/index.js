@@ -1,10 +1,11 @@
-const authController = require('../controllers/authController');
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
 
-// ==================== PUBLIC ROUTES ====================
+// Import controllers
+const authController = require('../controllers/authController');
 
+// ==================== PUBLIC ROUTES ====================
 
 // Health check
 router.get('/health', (req, res) => {
@@ -83,6 +84,7 @@ router.post('/api/contact', async (req, res) => {
 });
 
 // ==================== AUTH ROUTES ====================
+
 router.post('/api/admin/login', authController.login);
-router.get('/api/admin/skills', authMiddleware, skillsController.getAllSkills);
+
 module.exports = router;
