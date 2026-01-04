@@ -16,6 +16,11 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
+    // Debug logs
+    console.log('=== LOGIN ATTEMPT ===');
+    console.log('Email:', email);
+    console.log('Password:', password);
+
     // Validation
     if (!email || !password) {
       return res.status(400).json({
@@ -30,31 +35,43 @@ exports.login = async (req, res, next) => {
       [email]
     );
 
+    console.log('Users found in DB:', users.length);
+    if (users.length > 0) {
+      console.log('User email from DB:', users[0].email);
+      console.log('Password hash from DB:', users[0].password_hash);
+    }
+
     if (users.length === 0) {
+      console.log('❌ No user found');
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'brother ewww whats that? - user not found!'
       });
     }
 
     const user = users[0];
 
     // Check password
+    console.log('Comparing passwords...');
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+    console.log('Password valid?', isPasswordValid);
 
     if (!isPasswordValid) {
+      console.log('❌ Password incorrect');
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials - Wrong password moron'
       });
     }
+
+    console.log('✅ Login successfully');
 
     // Generate token
     const token = generateToken(user.id, user.email, user.role);
 
     res.json({
       success: true,
-      message: 'Login successful',
+      message: '✅ Voila! Logged in!',
       data: {
         token,
         user: {
@@ -66,6 +83,7 @@ exports.login = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error('❌ Login error moron:', error);
     next(error);
   }
 };
