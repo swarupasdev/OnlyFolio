@@ -151,51 +151,99 @@ export default function Portfolio() {
   // Landing Page
   if (currentPage === 'landing') {
     return (
-      <div className={`min-h-screen bg-black text-white flex items-center justify-center relative overflow-hidden transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`min-h-screen bg-black text-white flex items-center justify-center relative overflow-hidden transition-opacity duration-1000 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+        {/* Animated Background Blobs */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full filter blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/30 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full filter blur-3xl animate-pulse transition-all duration-1000"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/30 rounded-full filter blur-3xl animate-pulse transition-all duration-1000" style={{ animationDelay: '1s' }}></div>
         </div>
         
-        <div className="absolute inset-0 opacity-20" style={{
+        {/* Grid Background */}
+        <div className="absolute inset-0 opacity-20 transition-opacity duration-1000" style={{
           backgroundImage: 'linear-gradient(rgba(6, 182, 212, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.3) 1px, transparent 1px)',
           backgroundSize: '50px 50px'
         }}></div>
 
         <div className="text-center z-10 px-6 max-w-4xl">
-        {/* Admin Button */}
+          {/* Admin Button - Subtle */}
           <button
             onClick={() => navigateToPage('admin')}
-            className="absolute top-8 right-8 text-xs text-gray-500 hover:text-cyan-400 transition-colors"
+            className="absolute top-8 right-8 text-xs text-gray-600 hover:text-cyan-400 transition-all duration-500 opacity-50 hover:opacity-100"
           >
             Manage
           </button>
+
+          {/* Name with Smooth Slide Up Animation */}
           {showName && (
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-8">
-              <span className="block text-cyan-400 mb-2 tracking-wider">Hello, I'm</span>
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-500 bg-clip-text text-transparent">
-                 Santiswarup Nayak
+              <span className="block text-cyan-400 mb-2 tracking-wider transition-all duration-700 ease-out" style={{ 
+                animation: 'fadeInUp 0.8s ease-out forwards' 
+              }}>
+                Hello, I'm
+              </span>
+              <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-500 bg-clip-text text-transparent transition-all duration-700 ease-out" style={{ 
+                animation: 'fadeInUp 0.8s ease-out 0.3s forwards',
+                opacity: 0,
+                animationFillMode: 'forwards'
+              }}>
+                Santiswarup Nayak
               </span>
             </h1>
           )}
 
+          {/* Role with Staggered Smooth Fade In */}
           {showRole && (
-            <div className="mb-12">
+            <div className="mb-12 transition-all duration-1000 ease-out">
               <p className="text-2xl sm:text-3xl text-cyan-300 font-mono tracking-widest flex items-center justify-center gap-3 flex-wrap">
-                <span className="hover:text-cyan-400 transition-colors cursor-default">Developer</span>
-                <span className="text-cyan-500">|</span>
-                <span className="hover:text-cyan-400 transition-colors cursor-default">AI Enthusiast</span>
-                <span className="text-cyan-500">|</span>
-                <span className="hover:text-cyan-400 transition-colors cursor-default">Artist</span>
+                <span className="hover:text-cyan-400 transition-all duration-500 cursor-default" style={{ 
+                  animation: 'fadeInUp 0.6s ease-out 0s forwards',
+                  opacity: 0,
+                  animationFillMode: 'forwards'
+                }}>
+                  Developer
+                </span>
+                <span className="text-cyan-500 transition-all duration-500" style={{ 
+                  animation: 'fadeInUp 0.6s ease-out 0.2s forwards',
+                  opacity: 0,
+                  animationFillMode: 'forwards'
+                }}>
+                  |
+                </span>
+                <span className="hover:text-cyan-400 transition-all duration-500 cursor-default" style={{ 
+                  animation: 'fadeInUp 0.6s ease-out 0.4s forwards',
+                  opacity: 0,
+                  animationFillMode: 'forwards'
+                }}>
+                  AI Enthusiast
+                </span>
+                <span className="text-cyan-500 transition-all duration-500" style={{ 
+                  animation: 'fadeInUp 0.6s ease-out 0.6s forwards',
+                  opacity: 0,
+                  animationFillMode: 'forwards'
+                }}>
+                  |
+                </span>
+                <span className="hover:text-cyan-400 transition-all duration-500 cursor-default" style={{ 
+                  animation: 'fadeInUp 0.6s ease-out 0.8s forwards',
+                  opacity: 0,
+                  animationFillMode: 'forwards'
+                }}>
+                  Artist
+                </span>
               </p>
             </div>
           )}
 
+          {/* Buttons with Smooth Entrance Animation */}
           {showButtons && (
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center" style={{ 
+              animation: 'fadeInUp 0.8s ease-out 1s forwards',
+              opacity: 0,
+              animationFillMode: 'forwards'
+            }}>
               <button
                 onClick={() => navigateToPage('home')}
-                className="group relative px-8 py-4 bg-transparent border-2 border-cyan-500 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 hover:scale-105"
+                className="group relative px-8 py-4 bg-transparent border-2 border-cyan-500 rounded-lg overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-cyan-500/50 hover:scale-110 transform"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/30 to-cyan-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                 <span className="relative text-cyan-400 font-semibold text-lg tracking-wider">Curious About Me</span>
@@ -204,28 +252,41 @@ export default function Portfolio() {
               <div className="relative">
                 <button
                   onClick={() => setShowContactIcons(!showContactIcons)}
-                  className="group relative px-8 py-4 bg-transparent border-2 border-purple-500 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50 hover:scale-105"
+                  className="group relative px-8 py-4 bg-transparent border-2 border-purple-500 rounded-lg overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/50 hover:scale-110 transform"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                   <span className="relative text-purple-400 font-semibold text-lg tracking-wider">Connect With Me</span>
                 </button>
 
+                {/* Contact Icons with Stagger Animation */}
                 {showContactIcons && (
                   <div className="absolute top-full mt-6 left-1/2 transform -translate-x-1/2 flex gap-6">
-                    <a href="https://linkedin.com/in/santiswarup-nayak" target="_blank" rel="noopener noreferrer" className="group">
-                      <div className="relative p-4 bg-black border-2 border-blue-500 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/50">
+                    <a href="https://linkedin.com/in/santiswarup-nayak" target="_blank" rel="noopener noreferrer" className="group" style={{ 
+                      animation: 'fadeInUp 0.5s ease-out 0s forwards',
+                      opacity: 0,
+                      animationFillMode: 'forwards'
+                    }}>
+                      <div className="relative p-4 bg-black border-2 border-blue-500 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/50 hover:-translate-y-2">
                         <div className="absolute inset-0 bg-blue-500/20 blur-xl group-hover:bg-blue-500/40 transition-all duration-300"></div>
                         <Linkedin className="w-8 h-8 text-blue-400 relative z-10" />
                       </div>
                     </a>
-                    <a href="mailto:santiswarupnayak1@gmail.com" className="group">
-                      <div className="relative p-4 bg-black border-2 border-red-500 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/50">
+                    <a href="mailto:santiswarupnayak1@gmail.com" className="group" style={{ 
+                      animation: 'fadeInUp 0.5s ease-out 0.1s forwards',
+                      opacity: 0,
+                      animationFillMode: 'forwards'
+                    }}>
+                      <div className="relative p-4 bg-black border-2 border-red-500 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/50 hover:-translate-y-2">
                         <div className="absolute inset-0 bg-red-500/20 blur-xl group-hover:bg-red-500/40 transition-all duration-300"></div>
                         <Mail className="w-8 h-8 text-red-400 relative z-10" />
                       </div>
                     </a>
-                    <a href="https://github.com/swarupasdev" target="_blank" rel="noopener noreferrer" className="group">
-                      <div className="relative p-4 bg-black border-2 border-gray-500 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-gray-500/50">
+                    <a href="https://github.com/swarupasdev" target="_blank" rel="noopener noreferrer" className="group" style={{ 
+                      animation: 'fadeInUp 0.5s ease-out 0.2s forwards',
+                      opacity: 0,
+                      animationFillMode: 'forwards'
+                    }}>
+                      <div className="relative p-4 bg-black border-2 border-gray-500 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-gray-500/50 hover:-translate-y-2">
                         <div className="absolute inset-0 bg-gray-500/20 blur-xl group-hover:bg-gray-500/40 transition-all duration-300"></div>
                         <Github className="w-8 h-8 text-gray-400 relative z-10" />
                       </div>
