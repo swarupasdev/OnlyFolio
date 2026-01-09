@@ -458,8 +458,9 @@ export default function Portfolio() {
             <h3 className="text-3xl font-bold text-center mb-8 text-cyan-400 font-mono">DEPLOYED PROJECTS</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {projects.map((project) => (
-                <div key={project.title} className="bg-black/70 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30 hover:border-cyan-400/70 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/30">
-                  <h4 className="text-xl font-bold text-cyan-300 mb-3">{project.title}</h4>
+                <div key={project.title} className="bg-black/70 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30 hover:border-cyan-400/70 transition-all       duration-300 hover:shadow-lg hover:shadow-cyan-500/30 cursor-pointer group"
+                    onClick={() => window.open(project.github_url, '_blank')}>
+                    <h4 className="text-xl font-bold text-cyan-300 mb-3 group-hover:text-cyan-400 transition-colors">{project.title}</h4>
                   <p className="text-gray-400 mb-4">{project.desc}</p>
                   <div className="flex flex-wrap gap-2">
                     {project.tech.map((t) => (
