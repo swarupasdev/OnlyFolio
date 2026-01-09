@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { LogOut, BarChart3, Code, FileText, BookOpen, MessageSquare, PlusCircle, Edit, Trash2 } from 'lucide-react';
-
+import AddProjectModel from './components/AddProjectModel';
 export default function AdminDashboard({ token, onLogout }) {
   const [activeTab, setActiveTab] = useState('overview');
   const [skills, setSkills] = useState([]);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({});
-
+  const [showAddProjectModel, setShowAddProjectModel] = useState(false);
   // Fetch data
   useEffect(() => {
     fetchData();
@@ -243,12 +243,14 @@ export default function AdminDashboard({ token, onLogout }) {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-white">Manage Projects</h2>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all">
+                  <button 
+                    onClick={() => setShowAddProjectModel(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-all">
                     <PlusCircle className="w-5 h-5" />
                     Add Project
                   </button>
                 </div>
-
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {projects.map(project => (
                     <div key={project.id} className="bg-black/50 backdrop-blur-xl border-2 border-cyan-500/30 rounded-xl p-6 hover:border-cyan-400/70 transition-all">
@@ -281,6 +283,16 @@ export default function AdminDashboard({ token, onLogout }) {
             )}
           </>
         )}
+                {/* Add Project Model */}
+        <AddProjectModel 
+          isOpen={showAddProjectModel}
+          onClose={() => setShowAddProjectModel(false)}
+          onAdd={() => {
+            fetchData();
+            setShowAddProjectModel(false);
+          }}
+          token={token}
+        />
       </div>
     </div>
   );
