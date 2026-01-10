@@ -114,12 +114,12 @@ export default function Portfolio() {
     { name: 'AI/ML', level: 80, icon: Brain, color: 'from-cyan-500 to-blue-600' }
     ];
 
-  const projects = [
+  /*const projects = [
     { title: 'ML Classification Model', tech: ['Python', 'TensorFlow', 'Scikit-learn'], desc: 'Advanced machine learning model for data classification' },
     { title: 'Data Structures Library', tech: ['C++', 'Templates'], desc: 'Custom implementation of advanced data structures' },
     { title: 'Neural Network Framework', tech: ['Python', 'NumPy'], desc: 'Built from scratch neural network implementation' },
     { title: 'Algorithm Visualizer', tech: ['Python', 'Pygame'], desc: 'Interactive tool for visualizing sorting algorithms' }
-  ];
+  ];*/
 
   const poems = [
     { title: 'Digital Dreams', preview: 'In circuits deep and code so bright, Where algorithms dance through night...', full: 'In circuits deep and code so bright,\nWhere algorithms dance through night,\nI find a world of ones and zeros,\nWhere logic reigns and reason grows.\n\nThrough silicon valleys, data streams,\nI chase electric, binary dreams.' },
@@ -455,22 +455,55 @@ export default function Portfolio() {
               ))}
             </div>
 
-            <h3 className="text-3xl font-bold text-center mb-8 text-cyan-400 font-mono">DEPLOYED PROJECTS</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {projects.map((project) => (
-                <div key={project.title} className="bg-black/70 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30 hover:border-cyan-400/70 transition-all       duration-300 hover:shadow-lg hover:shadow-cyan-500/30 cursor-pointer group"
-                    onClick={() => window.open(project.github_url, '_blank')}>
-                    <h4 className="text-xl font-bold text-cyan-300 mb-3 group-hover:text-cyan-400 transition-colors">{project.title}</h4>
-                  <p className="text-gray-400 mb-4">{project.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((t) => (
-                      <span key={t} className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm border border-cyan-500/30">{t}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+<h3 className="text-3xl font-bold text-center mb-8 text-cyan-400 font-mono">
+  DEPLOYED PROJECTS
+</h3>
+
+{apiProjects.length === 0 ? (
+  <div className="text-center py-12">
+    <p className="text-gray-400 text-lg">No projects added yet.</p>
+    <p className="text-gray-500 text-sm mt-2">
+      Add projects from the Admin Dashboard to see them here.
+    </p>
+  </div>
+) : (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {apiProjects.map((project) => (
+      <div
+        key={project.id || project.title}
+        onClick={() =>
+          window.open(project.github_url || project.github, "_blank")
+        }
+        className="relative bg-black/70 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30 hover:border-cyan-400/70 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/40 cursor-pointer group transform hover:scale-105 hover:-translate-y-1"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+
+        <div className="relative z-10">
+          <h4 className="text-xl font-bold text-cyan-300 mb-3 flex items-center justify-between">
+            <span>{project.title}</span>
+          </h4>
+
+          <p className="text-gray-400 mb-4">
+            {project.description || project.desc}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {(project.technologies || project.tech || []).map((t) => (
+              <span
+                key={t}
+                className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm border border-cyan-500/30"
+              >
+                {t}
+              </span>
+            ))}
           </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
+          </div>   {/* max-w-7xl */}
         </section>
       </div>
     );

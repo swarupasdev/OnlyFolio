@@ -135,6 +135,67 @@ router.get('/api/admin/projects', authMiddleware, async (req, res) => {
   }
 });
 
+
+// Create project (Admin)
+router.post('/api/admin/projects', authMiddleware, async (req, res) => {
+  const connection = await db.getConnection();
+  
+  try {
+    await connection.beginTransaction();
+
+    const {
+      title,
+      description,
+      github_url,
+      technologies = [],
+      display_order = 0,
+      is_featured = 1
+    } = req.body;
+
+    // Validation
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        message: 'Project title is required'
+      });
+    }
+
+    // Insert project
+    const [result] = await connection.query(
+      `INSERT INTO projects 
+       (title, description, github_url, display_order, is_featured) 
+       VALUES (?, ?, ?, ?, ?)`,
+      [title, description, github_url, display_order, is_featured]
+    );
+
+    const projectId = result.insertId;
+
+    // Insert technologies
+    if (technologies && technologies.length > 0) {
+      const techValues = technologies.map(tech => [projectId, tech]);
+      await connection.query(
+        'INSERT INTO project_technologies (project_id, technology_name) VALUES ?',
+        [techValues]
+      );
+    }
+
+    await connection.commit();
+
+    res.status(201).json({
+      success: true,
+      message: 'Project created successfully',
+      data: { id: projectId }
+    });
+  } catch (error) {
+    await connection.rollback();
+    console.error('Create project error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  } finally {
+    connection.release();
+  }
+});
+
+
 // Delete project (Admin)
 router.delete('/api/admin/projects/:id', authMiddleware, async (req, res) => {
   try {
@@ -149,6 +210,7 @@ router.delete('/api/admin/projects/:id', authMiddleware, async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
+
 
 // Get analytics overview (Admin)
 router.get('/api/admin/analytics/overview', authMiddleware, async (req, res) => {
